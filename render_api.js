@@ -1,17 +1,17 @@
 /*!
  * @name Huibq_lxmusic源
  * @description 所有通知访问下方域名，反馈可前往原GitHub提Issues，禁止批量下载！
- * @version v1.2.0
+ * @version v1.2.1
  * @author Huibq
  */
 const DEV_ENABLE = false
-const API_URL = 'https://render.niuma666bet.buzz'
+const API_URL = 'https://lxmusic.niuma666bet.buzz'
 const API_KEY = 'share-v2'
 const MUSIC_QUALITY = {
-  kw: ['128k', '320k'],
-  kg: ['128k', '320k'],
-  tx: ['128k', '320k'],
-  wy: ['128k', '320k'],
+  kw: ['128k', '320k','flac'],
+  kg: ['128k', '320k','flac'],
+  tx: ['128k', '320k','flac'],
+  wy: ['128k', '320k','flac'],
   mg: ['128k', '320k'],
 }
 const MUSIC_SOURCE = Object.keys(MUSIC_QUALITY)

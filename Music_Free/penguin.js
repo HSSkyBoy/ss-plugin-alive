@@ -455,8 +455,8 @@ async function getMediaSource(musicItem, quality) {
 module.exports = {
     platform: "企鹅音乐",
     author: "HSSkyBoy",
-    version: "0.2.2",
-    srcUrl: "https://raw.niuma666bet.buzz/HSSkyBoy/ss-plugin-alive/master/Music_Free/xiaoqiu.js",
+    version: "0.3.0",
+    srcUrl: "https://raw.niuma666bet.buzz/HSSkyBoy/ss-plugin-alive/master/Music_Free/xpenguin.js",
     cacheControl: "no-cache",
     hints: {
         importMusicSheet: [

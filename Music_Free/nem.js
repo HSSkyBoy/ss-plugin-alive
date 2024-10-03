@@ -344,7 +344,7 @@ async function getTopLists() {
     const res = await axios_1.default.get("https://music.163.com/discover/toplist", {
         headers: {
             referer: "https://music.163.com/",
-        "user-agent": "Mozilla/5.0 (HarmonyOS 4.0.0.118; Android 12; HUAWEIOXF-ANO0; zh-TW; HSSkyBoy) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Mobile Safari/537.36 EdgA/100.0.0.0",
+        "user-agent": "Mozilla/5.0 (HarmonyOS 4.020.121; Android 12; HUAWEIOXF-ANO0; HSSkyBoy) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36",
         },
     });
     const $ = cheerio.load(res.data);
@@ -514,9 +514,9 @@ async function getMusicSheetInfo(sheet, page) {
 module.exports = {
     platform: "网抑云",
     author: 'HSSkyBoy',
-    version: "0.2.2",
+    version: "0.3.0",
     appVersion: ">0.2.0",
-    srcUrl: "https://raw.gitmirror.com/HSSkyBoy/ss-plugin-alive/master/Music_Free/xiaoyun.js",
+    srcUrl: "https://raw.gitmirror.com/HSSkyBoy/ss-plugin-alive/master/Music_Free/nem.js",
     cacheControl: "no-store",
     hints: {
         importMusicSheet: [

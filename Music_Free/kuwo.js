@@ -505,9 +505,9 @@ async function getMusicInfo(musicItem) {
 module.exports = {
     platform: "酷我",
     author: 'Huibq',
-    version: "0.2.0",
+    version: "0.3.0",
     appVersion: ">0.2.0",
-    srcUrl: "https://raw.niuma666bet.buzz/HSSkyBoy/ss-plugin-alive/master/Music_Free/xiaowo.js",
+    srcUrl: "https://raw.niuma666bet.buzz/HSSkyBoy/ss-plugin-alive/master/Music_Free/kuwo.js",
     cacheControl: "no-cache",
     hints: {
         importMusicSheet: [

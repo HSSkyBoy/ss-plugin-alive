@@ -381,10 +381,10 @@ async function importMusicSheet(urlLike) {
 }
 module.exports = {
     platform: "酷狗",
-    version: "0.2.0",
+    version: "0.3.0",
     author: 'Huibq',
     appVersion: ">0.2.0",
-    srcUrl: "https://raw.niuma666bet.buzz/Huibq/keep-alive/master/Music_Free/xiaogou.js",
+    srcUrl: "https://raw.niuma666bet.buzz/HSSkyBoy/ss-keep-alive/master/Music_Free/kugou.js",
     cacheControl: "no-cache",
     description: "",
     primaryKey: ["id", "album_id", "album_audio_id"],
