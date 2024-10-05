@@ -556,7 +556,7 @@ const qualityLevels = {
 };
 async function getMediaSource(musicItem, quality) {
     const res = (
-        await axios_1.default.get(`https://lxmusicapi.niuma666bet.buzz/url/mg/${musicItem.id}/${qualityLevels[quality]}`, {
+        await axios_1.default.get(`https://lxmusicapi.onrender.com/url/mg/${musicItem.id}/${qualityLevels[quality]}`, {
             headers: {
                 "X-Request-Key": "share-v2"
             },
@@ -569,7 +569,7 @@ async function getMediaSource(musicItem, quality) {
 module.exports = {
     platform: "小蜜音乐",
     author: "Huibq",
-    version: "0.3.0",
+    version: "0.3.1",
     appVersion: ">0.1.0-alpha.0",
     hints: {
         importMusicSheet: [
@@ -580,7 +580,7 @@ module.exports = {
     },
     primaryKey: ["id", "copyrightId"],
     cacheControl: "cache",
-    srcUrl: "https://raw.niuma666bet.buzz/Huibq/keep-alive/master/Music_Free/xiaomi.js",
+    srcUrl: "https://raw.niuma666bet.buzz/HSSkyBoy/ss-keep-alive/master/Music_Free/xiaomi.js",
     supportedSearchType: ["music", "album", "sheet", "artist", "lyric"],
     getMediaSource,
     async search(query, page, type) {

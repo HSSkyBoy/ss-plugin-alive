@@ -344,7 +344,7 @@ async function getTopLists() {
     const res = await axios_1.default.get("https://music.163.com/discover/toplist", {
         headers: {
             referer: "https://music.163.com/",
-        "user-agent": "Mozilla/5.0 (HarmonyOS 4.020.121; Android 12; HUAWEIOXF-ANO0; HSSkyBoy) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36",
+        "user-agent": "Mozilla/5.0 (HarmonyOS 4.2.0.120; Android 12; HUAWEIOXF-ANO0; HSSkyBoy) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36",
         },
     });
     const $ = cheerio.load(res.data);
@@ -392,7 +392,7 @@ const qualityLevels = {
 };
 async function getMediaSource(musicItem, quality) {
     const res = (
-        await axios_1.default.get(`https://lxmusicapi.niuma666bet.buzz/url/wy/${musicItem.id}/${qualityLevels[quality]}`, {
+        await axios_1.default.get(`https://lxmusicapi.onrender.com/url/wy/${musicItem.id}/${qualityLevels[quality]}`, {
             headers: {
                 "X-Request-Key": "share-v2"
             },
@@ -493,7 +493,7 @@ async function getMusicSheetInfo(sheet, page) {
             Referer: "https://y.music.163.com/",
             Origin: "https://y.music.163.com/",
             authority: "music.163.com",
-        "user-agent": "Mozilla/5.0 (HarmonyOS 4.0.0.118; Android 12; HUAWEIOXF-ANO0; zh-TW; HSSkyBoy) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Mobile Safari/537.36 EdgA/125.0.0.0",
+        "user-agent": "Mozilla/5.0 (HarmonyOS 4.2.0.120; Android 12; HSSkyBoy) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Mobile Safari/537.36 EdgA/125.0.0.0",
         };
         const sheetDetail = (await axios_1.default.get(`https://music.163.com/api/v3/playlist/detail?id=${id}&n=5000`, {
             headers,
@@ -514,9 +514,9 @@ async function getMusicSheetInfo(sheet, page) {
 module.exports = {
     platform: "网抑云",
     author: 'HSSkyBoy',
-    version: "0.3.0",
+    version: "0.3.1",
     appVersion: ">0.2.0",
-    srcUrl: "https://raw.gitmirror.com/HSSkyBoy/ss-plugin-alive/master/Music_Free/nem.js",
+    srcUrl: "https://raw.niuma666bet.buzz/HSSkyBoy/ss-keep-alive/master/Music_Free/nem.js",
     cacheControl: "no-store",
     hints: {
         importMusicSheet: [

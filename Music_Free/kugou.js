@@ -161,7 +161,7 @@ const qualityLevels = {
 };
 async function getMediaSource(musicItem, quality) {
     const res = (
-        await axios_1.default.get(`https://lxmusicapi.niuma666bet.buzz/url/kg/${musicItem.id}/${qualityLevels[quality]}`, {
+        await axios_1.default.get(`https://lxmusicapi.onrender.com/url/kg/${musicItem.id}/${qualityLevels[quality]}`, {
             headers: {
                 "X-Request-Key": "share-v2"
             },
@@ -381,7 +381,7 @@ async function importMusicSheet(urlLike) {
 }
 module.exports = {
     platform: "酷狗",
-    version: "0.3.0",
+    version: "0.3.1",
     author: 'Huibq',
     appVersion: ">0.2.0",
     srcUrl: "https://raw.niuma666bet.buzz/HSSkyBoy/ss-keep-alive/master/Music_Free/kugou.js",

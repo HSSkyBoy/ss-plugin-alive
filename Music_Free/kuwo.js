@@ -473,7 +473,7 @@ const qualityLevels = {
 };
 async function getMediaSource(musicItem, quality) {
     const res = (
-        await axios_1.default.get(`https://lxmusicapi.niuma666bet.buzz/url/kw/${musicItem.id}/${qualityLevels[quality]}`, {
+        await axios_1.default.get(`https://lxmusicapi.onrender.com/url/kw/${musicItem.id}/${qualityLevels[quality]}`, {
             headers: {
                 "X-Request-Key": "share-v2"
             },
@@ -504,8 +504,8 @@ async function getMusicInfo(musicItem) {
 }
 module.exports = {
     platform: "酷我",
-    author: 'Huibq',
-    version: "0.3.0",
+    author: 'HSSkyBoy',
+    version: "0.3.1",
     appVersion: ">0.2.0",
     srcUrl: "https://raw.niuma666bet.buzz/HSSkyBoy/ss-plugin-alive/master/Music_Free/kuwo.js",
     cacheControl: "no-cache",
