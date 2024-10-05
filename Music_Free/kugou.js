@@ -382,7 +382,7 @@ async function importMusicSheet(urlLike) {
 module.exports = {
     platform: "酷狗",
     version: "0.3.1",
-    author: 'Huibq',
+    author: 'HSSkyBoy',
     appVersion: ">0.2.0",
     srcUrl: "https://raw.niuma666bet.buzz/HSSkyBoy/ss-keep-alive/master/Music_Free/kugou.js",
     cacheControl: "no-cache",

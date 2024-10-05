@@ -570,7 +570,7 @@ module.exports = {
     platform: "小蜜音乐",
     author: "Huibq",
     version: "0.3.1",
-    appVersion: ">0.1.0-alpha.0",
+    appVersion: ">0.2.0",
     hints: {
         importMusicSheet: [
             "咪咕APP：自建歌单-分享-复制链接，直接粘贴即可",
