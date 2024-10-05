@@ -5,7 +5,7 @@ const dayjs = require("dayjs");
 const he = require("he");
 const CryptoJs = require("crypto-js");
 const headers = {
-    "user-agent": "Mozilla/5.0 (Android 12; HSSkyBoy) AppleWebKit/537.36 (KHTML, like Gecko) Version/114.0 Chrome/99.0.4844.88 Mobile Safari/537.36 BiliApp/8150400 mobi_app/android channel/master Buvid/ABCDEFG1145145HIJKLMN 1919810NP233ONP sessionID/33df09dc innerVer/8150410 disable_rcmd/0 themeId/1 sh/50",
+    "fgent": "Mozilla/5.0 (Android 12; HSSkyBoy) AppleWebKit/537.36 (KHTML, like Gecko) Version/114.0 Chrome/99.0.4844.88 Mobile Safari/537.36 BiliApp/8150400 mobi_app/android channel/master Buvid/XG8ABCDEFG1145145HIJKLMN 1919810NP233 sessionID/33df09dc innerVer/8150410 disable_rcmd/0 themeId/1 sh/50",
     accept: "*/*",
     "accept-encoding": "gzip, deflate, br",
     "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
@@ -38,7 +38,7 @@ function durationToSec(duration) {
     return 0;
 }
 const searchHeaders = {
-    "user-agent": "Mozilla/5.0 (Android 12; HSSkyBoy) AppleWebKit/537.36 (KHTML, like Gecko) Version/114.0 Chrome/99.0.4844.88 Mobile Safari/537.36 BiliApp/8150400 mobi_app/android channel/master Buvid/ABCDEFG1145145HIJKLMN 1919810NP233ONP sessionID/33df09dc innerVer/8150410 disable_rcmd/0 themeId/1 sh/50",
+    "user-agent": "Mozilla/5.0 (Android 12; HSSkyBoy) AppleWebKit/537.36 (KHTML, like Gecko) Version/114.0 Chrome/99.0.4844.88 Mobile Safari/537.36 BiliApp/8150400 mobi_app/android channel/master Buvid/XG8ABCDEFG1145145HIJKLMN 1919810NP233 sessionID/33df09dc innerVer/8150410 disable_rcmd/0 themeId/1 sh/50",
     accept: "application/json, text/plain, */*",
     "accept-encoding": "gzip, deflate, br",
     origin: "https://search.bilibili.com",
@@ -52,7 +52,7 @@ async function getCookie() {
     if (!cookie) {
         cookie = (await axios_1.default.get("https://api.bilibili.com/x/frontend/finger/spi", {
             headers: {
-                "User-Agent": "Mozilla/5.0 (Android 12; HSSkyBoy) AppleWebKit/537.36 (KHTML, like Gecko) Version/114.0 Chrome/99.0.4844.88 Mobile Safari/537.36 BiliApp/8150400 mobi_app/android channel/master Buvid/ABCDEFG1145145HIJKLMN 1919810NP233ONP sessionID/33df09dc innerVer/8150410 disable_rcmd/0 themeId/1 sh/50",
+                "User-Agent": "Mozilla/5.0 (Android 12; HSSkyBoy) AppleWebKit/537.36 (KHTML, like Gecko) Version/114.0 Chrome/99.0.4844.88 Mobile Safari/537.36 BiliApp/8150400 mobi_app/android channel/master Buvid/XG8ABCDEFG1145145HIJKLMN 1919810NP233 sessionID/33df09dc innerVer/8150410 disable_rcmd/0 themeId/1 sh/50",
             },
         })).data.data;
     }
@@ -79,10 +79,7 @@ async function searchBase(keyword, page, searchType) {
         dynamic_offset: 0,
     };
     const res = (await axios_1.default.get("https://api.bilibili.com/x/web-interface/search/type", {
-        headers: {
-            ...searchHeaders,
-            cookie: `buvid3=${cookie.b_3};buvid4=${cookie.b_4}`,
-        },
+        headers: Object.assign(Object.assign({}, searchHeaders), { cookie: `buvid3=${cookie.b_3};buvid4=${cookie.b_4}` }),
         params: params,
     })).data;
     return res.data;
@@ -115,42 +112,47 @@ async function getFavoriteList(id) {
     return result;
 }
 function formatMedia(result) {
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
+    const title = he.decode((_b = (_a = result.title) === null || _a === void 0 ? void 0 : _a.replace(/(\<em(.*?)\>)|(\<\/em\>)/g, "")) !== null && _b !== void 0 ? _b : "");
     return {
-        id: result.cid ?? result.bvid ?? result.aid,
+        id: (_d = (_c = result.cid) !== null && _c !== void 0 ? _c : result.bvid) !== null && _d !== void 0 ? _d : result.aid,
         aid: result.aid,
         bvid: result.bvid,
-        artist: result.author ?? result.owner?.name,
-        title: he.decode(result.title?.replace(/(\<em(.*?)\>)|(\<\/em\>)/g, "") ?? ""),
-        album: result.bvid ?? result.aid,
-        artwork: result.pic?.startsWith("//")
+        artist: (_e = result.author) !== null && _e !== void 0 ? _e : (_f = result.owner) === null || _f === void 0 ? void 0 : _f.name,
+        title,
+        alias: (_g = title.match(/《(.+?)》/)) === null || _g === void 0 ? void 0 : _g[1],
+        album: (_h = result.bvid) !== null && _h !== void 0 ? _h : result.aid,
+        artwork: ((_j = result.pic) === null || _j === void 0 ? void 0 : _j.startsWith("//"))
             ? "http:".concat(result.pic)
             : result.pic,
-        description: result.description,
         duration: durationToSec(result.duration),
-        tags: result.tag?.split(","),
+        tags: (_k = result.tag) === null || _k === void 0 ? void 0 : _k.split(","),
         date: dayjs.unix(result.pubdate || result.created).format("YYYY-MM-DD"),
     };
 }
 async function searchAlbum(keyword, page) {
     const resultData = await searchBase(keyword, page, "video");
     const albums = resultData.result.map(formatMedia);
-       let resultobj= {
+    return {
         isEnd: resultData.numResults <= page * pageSize,
         data: albums,
     };
-     console.log(resultobj);
-    return resultobj;
 }
 async function searchArtist(keyword, page) {
     const resultData = await searchBase(keyword, page, "bili_user");
-    const artists = resultData.result.map((result) => ({
-        name: result.uname,
-        id: result.mid,
-        fans: result.fans,
-        description: result.usign,
-        avatar: result.upic,
-        worksNum: result.videos,
-    }));
+    const artists = resultData.result.map((result) => {
+        var _a;
+        return ({
+            name: result.uname,
+            id: result.mid,
+            fans: result.fans,
+            description: result.usign,
+            avatar: ((_a = result.upic) === null || _a === void 0 ? void 0 : _a.startsWith("//"))
+                ? `https://${result.upic}`
+                : result.upic,
+            worksNum: result.videos,
+        });
+    });
     return {
         isEnd: resultData.numResults <= page * pageSize,
         data: artists,
@@ -169,7 +171,7 @@ function getMixinKey(e) {
         t.join("").slice(0, 32));
 }
 function getRid(params) {
-    const npi = "4a1d4479a1ea4146bc7552eea71c28e9fa5812e23a204d10b332dc24d992432d";
+    const npi = "7cd084941338484aae1ad9425b84077c4932caff0ff746eab6f01bf08b70ac45";
     const o = getMixinKey(npi);
     const l = Object.keys(params).sort();
     let c = [];
@@ -185,7 +187,7 @@ function getRid(params) {
 }
 async function getArtistWorks(artistItem, page, type) {
     const queryHeaders = {
-        "user-agent": "Mozilla/5.0 (Android 12; HSSkyBoy) AppleWebKit/537.36 (KHTML, like Gecko) Version/114.0 Chrome/99.0.4844.88 Mobile Safari/537.36 BiliApp/8150400 mobi_app/android channel/master Buvid/ABCDEFG1145145HIJKLMN 1919810NP233ONP sessionID/33df09dc innerVer/8150410 disable_rcmd/0 themeId/1 sh/50",
+        "user-agent": "Mozilla/5.0 (Android 12; HSSkyBoy) AppleWebKit/537.36 (KHTML, like Gecko) Version/114.0 Chrome/99.0.4844.88 Mobile Safari/537.36 BiliApp/8150400 mobi_app/android channel/master Buvid/XG8ABCDEFG1145145HIJKLMN 1919810NP233 sessionID/33df09dc innerVer/8150410 disable_rcmd/0 themeId/1 sh/50",
         accept: "application/json, text/plain, */*",
         "accept-encoding": "gzip, deflate, br",
         origin: "https://space.bilibili.com",
@@ -193,7 +195,6 @@ async function getArtistWorks(artistItem, page, type) {
         "sec-fetch-mode": "cors",
         "sec-fetch-dest": "empty",
         referer: `https://space.bilibili.com/${artistItem.id}/video`,
-        "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
     };
     await getCookie();
     const now = Math.round(Date.now() / 1e3);
@@ -205,19 +206,18 @@ async function getArtistWorks(artistItem, page, type) {
         web_location: 1550101,
         order_avoided: true,
         order: "pubdate",
+        keyword: "",
         platform: "web",
+        dm_img_list: "[]",
+        dm_img_str: "V2ViR0wgMS4wIChPcGVuR0wgRVMgMi4wIENocm9taXVtKQ",
+        dm_cover_img_str: "QU5HTEUgKE5WSURJQSwgTlZJRElBIEdlRm9yY2UgR1RYIDE2NTAgKDB4MDAwMDFGOTEpIERpcmVjdDNEMTEgdnNfNV8wIHBzXzVfMCwgRDNEMTEpR29vZ2xlIEluYy4gKE5WSURJQS",
+        dm_img_inter: '{"ds":[],"wh":[0,0,0],"of":[0,0,0]}',
         wts: now.toString(),
     };
     const w_rid = getRid(params);
     const res = (await axios_1.default.get("https://api.bilibili.com/x/space/wbi/arc/search", {
-        headers: {
-            ...queryHeaders,
-            cookie: `buvid3=${cookie.b_3};buvid4=${cookie.b_4}`,
-        },
-        params: {
-            ...params,
-            w_rid,
-        },
+        headers: Object.assign(Object.assign({}, queryHeaders), { cookie: `buvid3=${cookie.b_3};buvid4=${cookie.b_4}` }),
+        params: Object.assign(Object.assign({}, params), { w_rid }),
     })).data;
     const resultData = res.data;
     const albums = resultData.list.vlist.map(formatMedia);
@@ -227,6 +227,7 @@ async function getArtistWorks(artistItem, page, type) {
     };
 }
 async function getMediaSource(musicItem, quality) {
+    var _a;
     let cid = musicItem.cid;
     if (!cid) {
         cid = (await getCid(musicItem.bvid, musicItem.aid)).data.cid;
@@ -240,7 +241,7 @@ async function getMediaSource(musicItem, quality) {
         };
     const res = (await axios_1.default.get("https://api.bilibili.com/x/player/playurl", {
         headers: headers,
-        params: { ..._params, cid: cid, fnval: 16 },
+        params: Object.assign(Object.assign({}, _params), { cid: cid, fnval: 16 }),
     })).data;
     let url;
     if (res.data.dash) {
@@ -266,14 +267,14 @@ async function getMediaSource(musicItem, quality) {
     }
     const hostUrl = url.substring(url.indexOf("/") + 2);
     const _headers = {
-        "user-agent": "Mozilla/5.0 (Android 12; HSSkyBoy) AppleWebKit/537.36 (KHTML, like Gecko) Version/114.0 Chrome/99.0.4844.88 Mobile Safari/537.36 BiliApp/8150400 mobi_app/android channel/master Buvid/ABCDEFG1145145HIJKLMN 1919810NP233ONP sessionID/33df09dc innerVer/8150410 disable_rcmd/0 themeId/1 sh/50",
+        "user-agent": "Mozilla/5.0 (Android 12; HSSkyBoy) AppleWebKit/537.36 (KHTML, like Gecko) Version/114.0 Chrome/99.0.4844.88 Mobile Safari/537.36 BiliApp/8150400 mobi_app/android channel/master Buvid/XG8ABCDEFG1145145HIJKLMN 1919810NP233 sessionID/33df09dc innerVer/8150410 disable_rcmd/0 themeId/1 sh/50",
         accept: "*/*",
         host: hostUrl.substring(0, hostUrl.indexOf("/")),
         "accept-encoding": "gzip, deflate, br",
         connection: "keep-alive",
-        referer: "https://www.bilibili.com/video/".concat((musicItem.bvid !== null && musicItem.bvid !== undefined
+        referer: "https://www.bilibili.com/video/".concat((_a = (musicItem.bvid !== null && musicItem.bvid !== undefined
             ? musicItem.bvid
-            : musicItem.aid) ?? ""),
+            : musicItem.aid)) !== null && _a !== void 0 ? _a : ""),
     };
     return {
         url: url,
@@ -297,8 +298,7 @@ async function getTopLists() {
     };
     const weeklyRes = await axios_1.default.get("https://api.bilibili.com/x/web-interface/popular/series/list", {
         headers: {
-            ...headers,
-            referer: "https://www.bilibili.com/",
+            "user-agent": "Mozilla/5.0 (Android 12; HSSkyBoy) AppleWebKit/537.36 (KHTML, like Gecko) Version/114.0 Chrome/99.0.4844.88 Mobile Safari/537.36 BiliApp/8150400 mobi_app/android channel/master Buvid/XG8ABCDEFG1145145HIJKLMN 1919810NP233 sessionID/33df09dc innerVer/8150410 disable_rcmd/0 themeId/1 sh/50",
         },
     });
     weekly.data = weeklyRes.data.data.list.slice(0, 8).map((e) => ({
@@ -365,7 +365,7 @@ async function getTopLists() {
             title: "动物圈",
         },
         {
-            id: "ranking/v2?rid=115&type=all",
+            id: "ranking/v2?rid=155&type=all",
             title: "时尚",
         },
         {
@@ -387,71 +387,101 @@ async function getTopLists() {
     ];
     const board = {
         title: "排行榜",
-        data: boardKeys.map((_) => ({
-            ..._,
-            coverImg: "https://s1.hdslb.com/bfs/static/jinkela/popular/assets/icon_rank.png",
-        })),
+        data: boardKeys.map((_) => (Object.assign(Object.assign({}, _), { coverImg: "https://s1.hdslb.com/bfs/static/jinkela/popular/assets/icon_rank.png" }))),
     };
     return [weekly, precious, board];
 }
 async function getTopListDetail(topListItem) {
     const res = await axios_1.default.get(`https://api.bilibili.com/x/web-interface/${topListItem.id}`, {
-        headers: {
-            ...headers,
-            referer: "https://www.bilibili.com/",
-        },
+        headers: Object.assign(Object.assign({}, headers), { referer: "https://www.bilibili.com/" }),
     });
-    return {
-        ...topListItem,
-        musicList: res.data.data.list.map(formatMedia),
-    };
+    return Object.assign(Object.assign({}, topListItem), { musicList: res.data.data.list.map(formatMedia) });
 }
 async function importMusicSheet(urlLike) {
+    var _a, _b, _c, _d;
     let id;
     if (!id) {
-        id = urlLike.match(/^\s*(\d+)\s*$/)?.[1];
+        id = (_a = urlLike.match(/^\s*(\d+)\s*$/)) === null || _a === void 0 ? void 0 : _a[1];
     }
     if (!id) {
-        id = urlLike.match(/^(?:.*)fid=(\d+).*$/)?.[1];
+        id = (_b = urlLike.match(/^(?:.*)fid=(\d+).*$/)) === null || _b === void 0 ? void 0 : _b[1];
     }
     if (!id) {
-        id = urlLike.match(/\/playlist\/pl(\d+)/i)?.[1];
+        id = (_c = urlLike.match(/\/playlist\/pl(\d+)/i)) === null || _c === void 0 ? void 0 : _c[1];
     }
     if (!id) {
-        id = urlLike.match(/\/list\/ml(\d+)/i)?.[1];
+        id = (_d = urlLike.match(/\/list\/ml(\d+)/i)) === null || _d === void 0 ? void 0 : _d[1];
     }
     if (!id) {
         return;
     }
     const musicSheet = await getFavoriteList(id);
-    return musicSheet.map((_) => ({
-        id: _.id,
-        aid: _.aid,
-        bvid: _.bvid,
-        artwork: _.cover,
-        title: _.title,
-        artist: _.upper?.name,
-        album: _.bvid ?? _.aid,
-        duration: durationToSec(_.duration),
-    }));
+    return musicSheet.map((_) => {
+        var _a, _b;
+        return ({
+            id: _.id,
+            aid: _.aid,
+            bvid: _.bvid,
+            artwork: _.cover,
+            title: _.title,
+            artist: (_a = _.upper) === null || _a === void 0 ? void 0 : _a.name,
+            album: (_b = _.bvid) !== null && _b !== void 0 ? _b : _.aid,
+            duration: durationToSec(_.duration),
+        });
+    });
+}
+function formatComment(item) {
+    var _a, _b, _c, _d, _e;
+    return {
+        id: item.rpid,
+        nickName: (_a = item.member) === null || _a === void 0 ? void 0 : _a.uname,
+        avatar: (_b = item.member) === null || _b === void 0 ? void 0 : _b.avatar,
+        comment: (_c = item.content) === null || _c === void 0 ? void 0 : _c.message,
+        like: item.like,
+        createAt: item.ctime * 1000,
+        location: ((_e = (_d = item.reply_control) === null || _d === void 0 ? void 0 : _d.location) === null || _e === void 0 ? void 0 : _e.startsWith("IP属地：")) ? item.reply_control.location.slice(5) : undefined
+    };
+}
+async function getMusicComments(musicItem) {
+    var _a, _b;
+    const res = (await (axios_1.default.get("https://api.bilibili.com/x/v2/reply", {
+        params: {
+            type: 1,
+            oid: musicItem.aid,
+            mode: 3,
+            plat: 1
+        }
+    }))).data;
+    const data = res.data.replies;
+    const comments = [];
+    for (let i = 0; i < data.length; ++i) {
+        comments[i] = formatComment(data[i]);
+        if ((_a = data[i].replies) === null || _a === void 0 ? void 0 : _a.length) {
+            comments[i].replies = (_b = data[i]) === null || _b === void 0 ? void 0 : _b.replies.map(formatComment);
+        }
+    }
+    return {
+        isEnd: true,
+        data: comments
+    };
 }
 module.exports = {
     platform: "bilibili",
-    appVersion: ">=0.0",
-    version: "0.1.6",
-    defaultSearchType: "album",
+    appVersion: ">=0.2.0",
+    version: "0.1.8",
+    author: "HSSkyBoy",
     cacheControl: "no-cache",
-    order: 16,
-    srcUrl: "http://adad23u.appinstall.life/dist/bilibili/index.js",
+    srcUrl: "https://raw.staticdn.net//HSSkyBoy/ss-plugin-alive/master/Music_Free/b23tv.js",
     primaryKey: ["id", "aid", "bvid", "cid"],
     hints: {
         importMusicSheet: [
-            "bilibili 移动端：APP点击我的，空间，右上角分享，复制链接，浏览器打开切换桌面版网站，点击播放全部视频，复制链接",
-            "bilibili H5/PC端：复制收藏夹URL，或者直接输入ID即可",
+            "哔哩哔哩 移动端：APP点击我的，空间，右上角分享，复制链接，浏览器打开切换桌面版网站，点击播放全部视频，复制链接",
+            "哔哩哔哩 网页/PC端：复制收藏夹URL，或者直接输入ID即可",
             "非公开收藏夹无法导入，编辑收藏夹改为公开即可",
             "导入时间和歌单大小有关，请耐心等待",
         ],
     },
+    supportedSearchType: ["music", "album", "artist"],
     async search(keyword, page, type) {
         if (type === "album" || type === "music") {
             return await searchAlbum(keyword, page);
@@ -462,23 +492,18 @@ module.exports = {
     },
     getMediaSource,
     async getAlbumInfo(albumItem) {
+        var _a;
         const cidRes = await getCid(albumItem.bvid, albumItem.aid);
-        const _ref2 = cidRes?.data ?? {};
+        const _ref2 = (_a = cidRes === null || cidRes === void 0 ? void 0 : cidRes.data) !== null && _a !== void 0 ? _a : {};
         const cid = _ref2.cid;
         const pages = _ref2.pages;
         let musicList;
         if (pages.length === 1) {
-            musicList = [{ ...albumItem, cid: cid }];
+            musicList = [Object.assign(Object.assign({}, albumItem), { cid: cid })];
         }
         else {
             musicList = pages.map(function (_) {
-                return {
-                    ...albumItem,
-                    cid: _.cid,
-                    title: _.part,
-                    duration: durationToSec(_.duration),
-                    id: _.cid,
-                };
+                return Object.assign(Object.assign({}, albumItem), { cid: _.cid, title: _.part, duration: durationToSec(_.duration), id: _.cid });
             });
         }
         return {
@@ -489,4 +514,5 @@ module.exports = {
     getTopLists,
     getTopListDetail,
     importMusicSheet,
+    getMusicComments
 };
