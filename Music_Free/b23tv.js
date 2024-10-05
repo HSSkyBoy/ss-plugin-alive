@@ -5,7 +5,7 @@ const dayjs = require("dayjs");
 const he = require("he");
 const CryptoJs = require("crypto-js");
 const headers = {
-    "fgent": "Mozilla/5.0 (Android 12; HSSkyBoy) AppleWebKit/537.36 (KHTML, like Gecko) Version/114.0 Chrome/99.0.4844.88 Mobile Safari/537.36 BiliApp/8150400 mobi_app/android channel/master Buvid/XG8ABCDEFG1145145HIJKLMN 1919810NP233 sessionID/33df09dc innerVer/8150410 disable_rcmd/0 themeId/1 sh/50",
+    "user-agent": "Mozilla/5.0 (Android 12; HSSkyBoy) AppleWebKit/537.36 (KHTML, like Gecko) Version/114.0 Chrome/99.0.4844.88 Mobile Safari/537.36 BiliApp/8150400 mobi_app/android channel/master Buvid/XG8ABCDEFG1145145HIJKLMN 1919810NP233 sessionID/33df09dc innerVer/8150410 disable_rcmd/0 themeId/1 sh/50",
     accept: "*/*",
     "accept-encoding": "gzip, deflate, br",
     "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
