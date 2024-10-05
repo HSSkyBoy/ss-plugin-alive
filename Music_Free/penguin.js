@@ -442,7 +442,7 @@ const qualityLevels = {
 };
 async function getMediaSource(musicItem, quality) {
     const res = (
-        await axios_1.default.get(`https://lxmusicapi.niuma666bet.buzz/url/tx/${musicItem.songmid}/${qualityLevels[quality]}`, {
+        await axios_1.default.get(`https://lxmusicapi.onrender.com/url/tx/${musicItem.songmid}/${qualityLevels[quality]}`, {
             headers: {
                 "X-Request-Key": "share-v2"
             },
@@ -454,9 +454,9 @@ async function getMediaSource(musicItem, quality) {
 }
 module.exports = {
     platform: "企鹅音乐",
-    author: "HSSkyBoy",
-    version: "0.3.0",
-    srcUrl: "https://raw.niuma666bet.buzz/HSSkyBoy/ss-plugin-alive/master/Music_Free/xpenguin.js",
+    author: " HSSkyBoy",
+    version: "0.3.1",
+    srcUrl: "https://raw.niuma666bet.buzz/HSSkyBoy/ss-keep-alive/master/Music_Free/penguin.js",
     cacheControl: "no-cache",
     hints: {
         importMusicSheet: [
