@@ -20,12 +20,6 @@ MusicFree请在设置中选择：`播放失败时暂停`
 
 ![img_3.png](source/注意1.png)
 
-#### 1.3 关于解封
-
-点击这里获取IP: [IP地址查询](https://ip125.com)
-
-将IP发送到这个邮箱：wcisman8@outlook.com
-
 
 ### 二. MusicFree
 
